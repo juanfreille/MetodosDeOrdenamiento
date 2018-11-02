@@ -52,14 +52,23 @@ Public Class Principal
     'Grafico
     Public Sub BurbujaNormal()
         Dim i As Long, Limite As Long
+        Dim cAsignaciones As Integer = 0
+        Dim cCondicionales As Integer = 0
+
+        cAsignaciones = cAsignaciones + 1
         Limite = UltimaPosicion
+        cCondicionales = cCondicionales + 1
         While Limite > 0
+            cAsignaciones = cAsignaciones + 1
             i = 0
+            cCondicionales = cCondicionales + 1
             While i < Limite
+                cCondicionales = cCondicionales + 1
                 GraficarBarra(Brushes.Yellow, i)
                 GraficarBarra(Brushes.Yellow, i + 1)
                 Threading.Thread.Sleep(Demora)
                 If V(i) > V(i + 1) Then
+                    cAsignaciones = cAsignaciones + 3
                     CambiarElementos(V, i, i + 1)
                     GraficarBarra(Brushes.Orange, i)
                     GraficarBarra(Brushes.Orange, i + 1)
@@ -67,12 +76,18 @@ Public Class Principal
                 End If
                 GraficarBarra(Brushes.Blue, i)
                 GraficarBarra(Brushes.Blue, i + 1)
+                cAsignaciones = cAsignaciones + 1
                 i = i + 1
             End While
             GraficarBarra(Brushes.Green, Limite)
+            cAsignaciones = cAsignaciones + 1
             Limite = Limite - 1
         End While
         GraficarBarra(Brushes.Green, 0)
+        lBurbuja.Items.Clear()
+        lBurbuja.Items.Add("C: " & cCondicionales)
+        lBurbuja.Items.Add("A: " & cAsignaciones)
+
         BurbujaNormal_Datos()
         FinalDeBotones()
     End Sub
@@ -84,36 +99,23 @@ Public Class Principal
         Dim TiempoFinal As DateTime
         Dim TiempoDeProceso As TimeSpan
         Dim i As Long, Limite As Long
-        Dim cAsignaciones As Integer = 0
-        Dim cCondicionales As Integer = 0
 
         TiempoInicial = Now
-        cAsignaciones = cAsignaciones + 1
         Limite = UltimaPosicion
-        cCondicionales = cCondicionales + 1
         While Limite > 0
-            cAsignaciones = cAsignaciones + 1
             i = 0
-            cCondicionales = cCondicionales + 1
             While i < Limite
-                cCondicionales = cCondicionales + 1
                 If VD(i) > VD(i + 1) Then
-                    cAsignaciones = cAsignaciones + 3
                     CambiarElementos(VD, i, i + 1)
                 End If
-                cAsignaciones = cAsignaciones + 1
                 i = i + 1
             End While
-            cAsignaciones = cAsignaciones + 1
             Limite = Limite - 1
         End While
 
         'Tomar tiempo final
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
-        lBurbuja.Items.Clear()
-        lBurbuja.Items.Add("C: " & cCondicionales)
-        lBurbuja.Items.Add("A: " & cAsignaciones)
         lBurbuja.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
     End Sub
 
@@ -125,28 +127,38 @@ Public Class Principal
         Dim i As Long = 0
         Dim Limite As Long
         Dim HuboCambio As Boolean
+        Dim cAsignaciones As Integer = 0
+        Dim cCondicionales As Integer = 0
 
+        cAsignaciones = cAsignaciones + 1
         HuboCambio = True
         Limite = UltimaPosicion
+        cAsignaciones = cAsignaciones + 1
         While Limite > 0 And HuboCambio
             '            GraficarBarra(Brushes.Red, Limite)
             HuboCambio = False
+            cAsignaciones = cAsignaciones + 1
             i = 0
+            cCondicionales = cCondicionales + 1
             While i < Limite
                 GraficarBarra(Brushes.Yellow, i)
                 GraficarBarra(Brushes.Yellow, i + 1)
                 Threading.Thread.Sleep(Demora * 2)
+                cCondicionales = cCondicionales + 1
                 If V(i) > V(i + 1) Then
                     HuboCambio = True
+                    cAsignaciones = cAsignaciones + 3
                     CambiarElementos(V, i, (i + 1))
                     GraficarBarra(Brushes.Orange, i)
                     GraficarBarra(Brushes.Orange, i + 1)
                     Threading.Thread.Sleep(Demora * 2)
                 End If
+                cAsignaciones = cAsignaciones + 1
                 GraficarBarra(Brushes.Blue, i)
                 Threading.Thread.Sleep(Demora * 2)
                 i = i + 1
             End While
+            cAsignaciones = cAsignaciones + 1
             GraficarBarra(Brushes.Green, Limite)
             Limite = Limite - 1
         End While
@@ -154,6 +166,10 @@ Public Class Principal
         For i = 0 To Limite
             GraficarBarra(Brushes.Green, i)
         Next
+
+        lBandera.Items.Clear()
+        lBandera.Items.Add("C: " & cCondicionales)
+        lBandera.Items.Add("A: " & cAsignaciones)
 
         BurbujaBandera_Datos()
         FinalDeBotones()
@@ -167,40 +183,24 @@ Public Class Principal
         Dim i As Long = 0
         Dim Limite As Long
         Dim HuboCambio As Boolean
-        Dim cAsignaciones As Integer = 0
-        Dim cCondicionales As Integer = 0
 
         TiempoInicial = Now
-        cAsignaciones = cAsignaciones + 1
         HuboCambio = True
-        cAsignaciones = cAsignaciones + 1
         Limite = UltimaPosicion
-        cCondicionales = cCondicionales + 3
         While Limite > 0 And HuboCambio
-            cAsignaciones = cAsignaciones + 1
             HuboCambio = False
-            cAsignaciones = cAsignaciones + 1
             i = 0
-            cCondicionales = cCondicionales + 1
             While i < Limite
-                cCondicionales = cCondicionales + 1
                 If VD(i) > VD(i + 1) Then
-                    cAsignaciones = cAsignaciones + 1
                     HuboCambio = True
-                    cAsignaciones = cAsignaciones + 3
                     CambiarElementos(VD, i, (i + 1))
                 End If
-                cAsignaciones = cAsignaciones + 1
                 i = i + 1
             End While
-            cAsignaciones = cAsignaciones + 1
             Limite = Limite - 1
         End While
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
-        lBandera.Items.Clear()
-        lBandera.Items.Add("C: " & cCondicionales)
-        lBandera.Items.Add("A: " & cAsignaciones)
         lBandera.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
     End Sub
 
@@ -913,6 +913,7 @@ Public Class Principal
             End If
             Cursor = Cursors.Default
             Me.Text = "Métodos de Ordenamiento"
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -938,6 +939,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -962,6 +964,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -986,6 +989,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1010,6 +1014,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1034,6 +1039,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1058,6 +1064,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1082,6 +1089,7 @@ Public Class Principal
             End If
             Me.Text = "Métodos de Ordenamiento"
             Cursor = Cursors.Default
+            THREAD.Join()
             MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
