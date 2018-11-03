@@ -55,6 +55,11 @@ Public Class Principal
         Dim cAsignaciones As Integer = 0
         Dim cCondicionales As Integer = 0
 
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
         cAsignaciones = cAsignaciones + 1
         Limite = UltimaPosicion
         cCondicionales = cCondicionales + 1
@@ -64,42 +69,53 @@ Public Class Principal
             cCondicionales = cCondicionales + 1
             While i < Limite
                 cCondicionales = cCondicionales + 1
-                GraficarBarra(Brushes.Yellow, i)
-                GraficarBarra(Brushes.Yellow, i + 1)
-                Threading.Thread.Sleep(Demora)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, i)
+                    GraficarBarra(Brushes.Yellow, i + 1)
+                    Threading.Thread.Sleep(Demora)
+                End If
                 If V(i) > V(i + 1) Then
                     cAsignaciones = cAsignaciones + 3
                     CambiarElementos(V, i, i + 1)
-                    GraficarBarra(Brushes.Orange, i)
-                    GraficarBarra(Brushes.Orange, i + 1)
-                    Threading.Thread.Sleep(Demora * 2)
+                    If chkGraficos.Checked Then
+                        GraficarBarra(Brushes.Orange, i)
+                        GraficarBarra(Brushes.Orange, i + 1)
+                        Threading.Thread.Sleep(Demora * 2)
+                    End If
                 End If
-                GraficarBarra(Brushes.Blue, i)
-                GraficarBarra(Brushes.Blue, i + 1)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i)
+                    GraficarBarra(Brushes.Blue, i + 1)
+                End If
                 cAsignaciones = cAsignaciones + 1
                 i = i + 1
             End While
-            GraficarBarra(Brushes.Green, Limite)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, Limite)
+            End If
             cAsignaciones = cAsignaciones + 1
             Limite = Limite - 1
         End While
-        GraficarBarra(Brushes.Green, 0)
+        If chkGraficos.Checked Then
+            GraficarBarra(Brushes.Green, 0)
+        End If
+        FinalDeBotones()
         lBurbuja.Items.Clear()
         lBurbuja.Items.Add("C: " & cCondicionales)
         lBurbuja.Items.Add("A: " & cAsignaciones)
-
         BurbujaNormal_Datos()
-        FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
     End Sub
 
     'Datos
     Public Sub BurbujaNormal_Datos()
-        'Tomar tiempo actual
         Dim TiempoInicial As DateTime
         Dim TiempoFinal As DateTime
         Dim TiempoDeProceso As TimeSpan
         Dim i As Long, Limite As Long
 
+        'Tomar tiempo actual
         TiempoInicial = Now
         Limite = UltimaPosicion
         While Limite > 0
@@ -117,6 +133,7 @@ Public Class Principal
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
         lBurbuja.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
 
     '------------------------------------------------------------------------------------------------------------
@@ -130,6 +147,12 @@ Public Class Principal
         Dim cAsignaciones As Integer = 0
         Dim cCondicionales As Integer = 0
 
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
         cAsignaciones = cAsignaciones + 1
         HuboCambio = True
         Limite = UltimaPosicion
@@ -141,31 +164,41 @@ Public Class Principal
             i = 0
             cCondicionales = cCondicionales + 1
             While i < Limite
-                GraficarBarra(Brushes.Yellow, i)
-                GraficarBarra(Brushes.Yellow, i + 1)
-                Threading.Thread.Sleep(Demora * 2)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, i)
+                    GraficarBarra(Brushes.Yellow, i + 1)
+                    Threading.Thread.Sleep(Demora * 2)
+                End If
                 cCondicionales = cCondicionales + 1
                 If V(i) > V(i + 1) Then
                     HuboCambio = True
                     cAsignaciones = cAsignaciones + 3
                     CambiarElementos(V, i, (i + 1))
-                    GraficarBarra(Brushes.Orange, i)
-                    GraficarBarra(Brushes.Orange, i + 1)
-                    Threading.Thread.Sleep(Demora * 2)
+                    If chkGraficos.Checked Then
+                        GraficarBarra(Brushes.Orange, i)
+                        GraficarBarra(Brushes.Orange, i + 1)
+                        Threading.Thread.Sleep(Demora * 2)
+                    End If
                 End If
                 cAsignaciones = cAsignaciones + 1
-                GraficarBarra(Brushes.Blue, i)
-                Threading.Thread.Sleep(Demora * 2)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i)
+                    Threading.Thread.Sleep(Demora * 2)
+                End If
                 i = i + 1
             End While
             cAsignaciones = cAsignaciones + 1
-            GraficarBarra(Brushes.Green, Limite)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, Limite)
+            End If
             Limite = Limite - 1
         End While
 
-        For i = 0 To Limite
-            GraficarBarra(Brushes.Green, i)
-        Next
+        If chkGraficos.Checked Then
+            For i = 0 To Limite
+                GraficarBarra(Brushes.Green, i)
+            Next
+        End If
 
         lBandera.Items.Clear()
         lBandera.Items.Add("C: " & cCondicionales)
@@ -173,6 +206,8 @@ Public Class Principal
 
         BurbujaBandera_Datos()
         FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
     End Sub
 
     'Datos
@@ -184,6 +219,7 @@ Public Class Principal
         Dim Limite As Long
         Dim HuboCambio As Boolean
 
+        'Tomar tiempo actual
         TiempoInicial = Now
         HuboCambio = True
         Limite = UltimaPosicion
@@ -199,9 +235,12 @@ Public Class Principal
             End While
             Limite = Limite - 1
         End While
+
+        'Tomar tiempo final
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
         lBandera.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
 
     '------------------------------------------------------------------------------------------------------------
@@ -211,47 +250,16 @@ Public Class Principal
     Private Sub BurbujaOptimizada()
         Dim i As Long = 0
         Dim PUC As Long
-        Dim Limite As Long = UltimaPosicion
-
-        While Limite > 0
-            i = 0
-            PUC = 0
-            While i < Limite
-                GraficarBarra(Brushes.Yellow, i)
-                GraficarBarra(Brushes.Yellow, i + 1)
-                Threading.Thread.Sleep(Demora)
-                If V(i) > V(i + 1) Then
-                    CambiarElementos(V, i, (i + 1))
-                    PUC = i
-                    GraficarBarra(Brushes.Orange, i)
-                    GraficarBarra(Brushes.Orange, i + 1)
-                    Threading.Thread.Sleep(Demora * 2)
-                End If
-                GraficarBarra(Brushes.Blue, i)
-                GraficarBarra(Brushes.Blue, i + 1)
-                i = i + 1
-            End While
-            GraficarBarra(Brushes.Green, Limite)
-            Limite = PUC
-        End While
-        GraficarBarra(Brushes.Green, 0)
-
-        BurbujaOptimizada_Datos()
-        FinalDeBotones()
-    End Sub
-
-    'Datos
-    Private Sub BurbujaOptimizada_Datos()
-        Dim TiempoInicial As DateTime
-        Dim TiempoFinal As DateTime
-        Dim TiempoDeProceso As TimeSpan
-        Dim i As Long = 0
-        Dim PUC As Long
         Dim Limite As Long
         Dim cAsignaciones As Integer = 0
         Dim cCondicionales As Integer = 0
 
-        TiempoInicial = Now
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
         cAsignaciones = cAsignaciones + 1
         Limite = UltimaPosicion
         cCondicionales = cCondicionales + 1
@@ -263,24 +271,80 @@ Public Class Principal
             PUC = 0
             cCondicionales = cCondicionales + 1
             While i < Limite
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, i)
+                    GraficarBarra(Brushes.Yellow, i + 1)
+                    Threading.Thread.Sleep(Demora)
+                End If
                 cCondicionales = cCondicionales + 1
-                If VD(i) > VD(i + 1) Then
+                If V(i) > V(i + 1) Then
                     cAsignaciones = cAsignaciones + 4
-                    CambiarElementos(VD, i, (i + 1))
+                    CambiarElementos(V, i, (i + 1))
                     PUC = i
+                    If chkGraficos.Checked Then
+                        GraficarBarra(Brushes.Orange, i)
+                        GraficarBarra(Brushes.Orange, i + 1)
+                        Threading.Thread.Sleep(Demora * 2)
+                    End If
+                End If
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i)
+                    GraficarBarra(Brushes.Blue, i + 1)
                 End If
                 cAsignaciones = cAsignaciones + 1
                 i = i + 1
             End While
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, Limite)
+            End If
             cAsignaciones = cAsignaciones + 1
             Limite = PUC
         End While
-        TiempoFinal = Now
-        TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
+        If chkGraficos.Checked Then
+            GraficarBarra(Brushes.Green, 0)
+        End If
+
         lOptimizada.Items.Clear()
         lOptimizada.Items.Add("C: " & cCondicionales)
         lOptimizada.Items.Add("A: " & cAsignaciones)
+
+        BurbujaOptimizada_Datos()
+        FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
+    End Sub
+
+    'Datos
+    Private Sub BurbujaOptimizada_Datos()
+        Dim TiempoInicial As DateTime
+        Dim TiempoFinal As DateTime
+        Dim TiempoDeProceso As TimeSpan
+        Dim i As Long = 0
+        Dim PUC As Long
+        Dim Limite As Long
+
+        'Tomar tiempo actual
+        TiempoInicial = Now
+        Limite = UltimaPosicion
+
+        While Limite > 0
+            i = 0
+            PUC = 0
+            While i < Limite
+                If VD(i) > VD(i + 1) Then
+                    CambiarElementos(VD, i, (i + 1))
+                    PUC = i
+                End If
+                i = i + 1
+            End While
+            Limite = PUC
+        End While
+
+        'Tomar tiempo final
+        TiempoFinal = Now
+        TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
         lOptimizada.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
     '------------------------------------------------------------------------------------------------------------
     '4 Burbuja Bidireccional
@@ -288,31 +352,102 @@ Public Class Principal
     'Grafico
 
     Private Sub BurbujaBidireccional()
-        Dim i As Integer = 0
-        Dim num As Integer = 0
-        Do
-            num = 0
-            While Not i = V.Length - 1
+        Dim posic As Long = 0
+        Dim iMax As Long
+        Dim iMin As Long
+        Dim i As Long
+        Dim cAsignaciones As Integer = 0
+        Dim cCondicionales As Integer = 0
+
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
+        cAsignaciones = cAsignaciones + 1
+        iMax = UltimaPosicion
+        cCondicionales = cCondicionales + 1
+
+        While posic < iMax
+            cAsignaciones = cAsignaciones + 2
+            iMin = posic
+            i = posic
+            cCondicionales = cCondicionales + 1
+            While i < iMax
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, i)
+                    GraficarBarra(Brushes.Yellow, i + 1)
+                    Threading.Thread.Sleep(Demora)
+                End If
+                cCondicionales = cCondicionales + 1
                 If V(i) > V(i + 1) Then
-                    CambiarElementos(V, i, i + 1)
-                    num += 1
+                    cAsignaciones = cAsignaciones + 4
+                    CambiarElementos(V, i, (i + 1))
+                    iMin = i
+                    If chkGraficos.Checked Then
+                        GraficarBarra(Brushes.Orange, i)
+                        GraficarBarra(Brushes.Orange, i + 1)
+                        Threading.Thread.Sleep(Demora)
+                    End If
                 End If
-                i += 1
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i)
+                    GraficarBarra(Brushes.Blue, i + 1)
+                End If
+                cAsignaciones = cAsignaciones + 1
+                i = i + 1
             End While
-            If num = 0 Then
-                Exit Do
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, iMax)
             End If
-            While Not i = 0
-                If V(i) < V(i - 1) Then
-                    CambiarElementos(V, i, i - 1)
-                    num += 1
+            cAsignaciones = cAsignaciones + 2
+            iMax = iMin
+            i = iMax
+            cCondicionales = cCondicionales + 1
+            While i > posic
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, i)
+                    GraficarBarra(Brushes.Yellow, i - 1)
+                    Threading.Thread.Sleep(Demora)
                 End If
-                i -= 1
+                cCondicionales = cCondicionales + 1
+                If V(i) < V(i - 1) Then
+                    cAsignaciones = cAsignaciones + 4
+                    CambiarElementos(V, i, (i - 1))
+                    iMin = i
+                    If chkGraficos.Checked Then
+                        GraficarBarra(Brushes.Orange, i)
+                        GraficarBarra(Brushes.Orange, i - 1)
+                        Threading.Thread.Sleep(Demora)
+                    End If
+                End If
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i)
+                    GraficarBarra(Brushes.Blue, i - 1)
+                End If
+                cAsignaciones = cAsignaciones + 1
+                i = i - 1
             End While
-        Loop Until num = 0
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, posic)
+            End If
+            cAsignaciones = cAsignaciones + 1
+            posic = iMin
+        End While
+        If chkGraficos.Checked Then
+            GraficarBarra(Brushes.Green, i)
+            GraficarBarra(Brushes.Green, i + 1)
+        End If
+
+        lBidireccional.Items.Clear()
+        lBidireccional.Items.Add("C: " & cCondicionales)
+        lBidireccional.Items.Add("A: " & cAsignaciones)
 
         BurbujaBidireccional_Datos()
         FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
     End Sub
 
     'Datos
@@ -321,61 +456,41 @@ Public Class Principal
         Dim TiempoFinal As DateTime
         Dim TiempoDeProceso As TimeSpan
         Dim posic As Long = 0
-        Dim posicionUltimoElemento As Long = UltimaPosicion
-        Dim cAsignaciones As Integer = 0
-        Dim cCondicionales As Integer = 0
-        Dim num As Long
-        Dim num5 As Long = posic
-        Dim num2 As Long = posic
+        Dim iMax As Long
+        Dim iMin As Long
+        Dim i As Long
 
+        'Tomar tiempo actual
         TiempoInicial = Now
-        cAsignaciones = cAsignaciones + 1
-        posicionUltimoElemento = UltimaPosicion
-        cCondicionales = cCondicionales + 1
+        iMax = UltimaPosicion
 
-        While posic < posicionUltimoElemento
-            cAsignaciones = cAsignaciones + 2
-            num5 = posic
-            num2 = posic
-            cCondicionales = cCondicionales + 1
-            While num2 < posicionUltimoElemento
-                cCondicionales = cCondicionales + 1
-                If VD(num2) > VD(num2 + 1) Then
-                    cAsignaciones = cAsignaciones + 4
-                    num = VD(num2)
-                    VD(num2) = VD(num2 + 1)
-                    VD(num2 + 1) = num
-                    num5 = num2
+        While posic < iMax
+            iMin = posic
+            i = posic
+            While i < iMax
+                If VD(i) > VD(i + 1) Then
+                    CambiarElementos(V, i, (i + 1))
+                    iMin = i
                 End If
-                cAsignaciones = cAsignaciones + 1
-                num2 = num2 + 1
+                i = i + 1
             End While
-            cAsignaciones = cAsignaciones + 3
-            posicionUltimoElemento = num5
-            num5 = posicionUltimoElemento
-            num2 = posicionUltimoElemento
-            While num2 > posic
-                cCondicionales = cCondicionales + 1
-                If VD(num2) < VD(num2 - 1) Then
-                    cAsignaciones = cAsignaciones + 4
-                    num = VD(num2)
-                    VD(num2) = VD(num2 - 1)
-                    VD(num2 - 1) = num
-                    num5 = num2
+            iMax = iMin
+            i = iMax
+            While i > posic
+                If VD(i) < VD(i - 1) Then
+                    CambiarElementos(V, i, (i - 1))
+                    iMin = i
                 End If
-                cAsignaciones = cAsignaciones + 1
-                num2 = num2 - 1
+                i = i - 1
             End While
-            cAsignaciones = cAsignaciones + 1
-            posic = num5
+            posic = iMin
         End While
 
+        'Tomar tiempo final
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
-        lBidireccional.Items.Clear()
-        lBidireccional.Items.Add("C: " & cCondicionales)
-        lBidireccional.Items.Add("A: " & cAsignaciones)
         lBidireccional.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
 
 
@@ -385,35 +500,72 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     'Grafico
     Private Sub SeleccionDirecta()
-        Dim Base As Long = 0
-        Dim Menor As Long = 0
-        Dim i As Long = 0
+        Dim Base As Long
+        Dim Menor As Long
+        Dim i As Long
+        Dim cAsignaciones As Integer = 0
+        Dim cCondicionales As Integer = 0
 
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
+        cAsignaciones = cAsignaciones + 1
+        Base = 0
+        cCondicionales = cCondicionales + 1
         While Base < UltimaPosicion
+            cAsignaciones = cAsignaciones + 2
             Menor = Base
             i = Base + 1
-            GraficarBarra(Brushes.Blue, i)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Blue, i)
+            End If
+            cCondicionales = cCondicionales + 1
             While i <= UltimaPosicion
-                GraficarBarra(Brushes.Blue, Menor)
-                If V(i) < V(Menor) Then
-                    Menor = i
-                    GraficarBarra(Brushes.Green, Menor)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, Menor)
                 End If
-                GraficarBarra(Brushes.Orange, Menor)
-                GraficarBarra(Brushes.Yellow, i)
-                Threading.Thread.Sleep(Demora * 2)
+                cCondicionales = cCondicionales + 1
+                If V(i) < V(Menor) Then
+                    cAsignaciones = cAsignaciones + 1
+                    Menor = i
+                    If chkGraficos.Checked Then
+                        GraficarBarra(Brushes.Green, Menor)
+                    End If
+                End If
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Orange, Menor)
+                    GraficarBarra(Brushes.Yellow, i)
+                    Threading.Thread.Sleep(Demora * 2)
+                End If
+                cAsignaciones = cAsignaciones + 1
                 i = i + 1
-                GraficarBarra(Brushes.Blue, i - 1)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i - 1)
+                End If
             End While
+            cAsignaciones = cAsignaciones + 4
             CambiarElementos(V, Base, Menor)
-            GraficarBarra(Brushes.Blue, Menor)
-            GraficarBarra(Brushes.Green, Base)
-            Threading.Thread.Sleep(Demora)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Blue, Menor)
+                GraficarBarra(Brushes.Green, Base)
+                Threading.Thread.Sleep(Demora)
+            End If
             Base = Base + 1
         End While
-        GraficarBarra(Brushes.Green, i - 1)
+        If chkGraficos.Checked Then
+            GraficarBarra(Brushes.Green, i - 1)
+        End If
+
+        lDirecta.Items.Clear()
+        lDirecta.Items.Add("C: " & cCondicionales)
+        lDirecta.Items.Add("A: " & cAsignaciones)
         SeleccionDirecta_Datos()
         FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
     End Sub
 
     'Datos
@@ -423,40 +575,29 @@ Public Class Principal
         Dim TiempoDeProceso As TimeSpan
         Dim Base As Long
         Dim Menor As Long
-        Dim i As Long = 0
-        Dim cAsignaciones As Integer = 0
-        Dim cCondicionales As Integer = 0
+        Dim i As Long
 
+        'Tomar tiempo actual
         TiempoInicial = Now
-        cAsignaciones = cAsignaciones + 1
         Base = 0
-        cCondicionales = cCondicionales + 1
-
         While Base < UltimaPosicion
-            cAsignaciones = cAsignaciones + 2
             Menor = Base
             i = Base + 1
-            cCondicionales = cCondicionales + 1
             While i <= UltimaPosicion
-                cCondicionales = cCondicionales + 1
                 If VD(i) < VD(Menor) Then
-                    cAsignaciones = cAsignaciones + 1
                     Menor = i
                 End If
-                cAsignaciones = cAsignaciones + 1
                 i = i + 1
             End While
-            cAsignaciones = cAsignaciones + 4
             CambiarElementos(VD, Base, Menor)
             Base = Base + 1
         End While
 
+        'Tomar tiempo final
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
-        lDirecta.Items.Clear()
-        lDirecta.Items.Add("C: " & cCondicionales)
-        lDirecta.Items.Add("A: " & cAsignaciones)
         lDirecta.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
 
     '------------------------------------------------------------------------------------------------------------
@@ -469,41 +610,73 @@ Public Class Principal
         Dim aux As Long
         Dim Frontera As Long
         Dim i As Long
+        Dim cAsignaciones As Integer = 0
+        Dim cCondicionales As Integer = 0
 
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
+        cAsignaciones = cAsignaciones + 1
         Frontera = 1 'Segundo elemento, porque asumimos que el primer elemento esta ordenado
+        cCondicionales = cCondicionales + 1
         While Frontera <= UltimaPosicion
+            cAsignaciones = cAsignaciones + 2
             aux = V(Frontera)
             i = Frontera - 1
+            cCondicionales = cCondicionales + 1
             While i >= 0 AndAlso V(i) > aux
-                GraficarBarra(Brushes.Blue, i)
-                GraficarBarra(Brushes.Green, Frontera)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, i)
+                    GraficarBarra(Brushes.Green, Frontera)
+                End If
+                cAsignaciones = cAsignaciones + 2
                 V(i + 1) = V(i)
-                GraficarBarra(Brushes.Orange, i)
-                Threading.Thread.Sleep(Demora * 2)
-                GraficarBarra(Brushes.Blue, i + 1)
-                Threading.Thread.Sleep(Demora * 2)
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Orange, i)
+                    Threading.Thread.Sleep(Demora * 2)
+                    GraficarBarra(Brushes.Blue, i + 1)
+                    Threading.Thread.Sleep(Demora * 2)
+                End If
                 i = i - 1
             End While
-            GraficarBarra(Brushes.Green, Frontera)
-            GraficarBarra(Brushes.Blue, i + 1)
+            If chkGraficos.Checked Then
+
+                GraficarBarra(Brushes.Green, Frontera)
+                GraficarBarra(Brushes.Blue, i + 1)
+            End If
+            cAsignaciones = cAsignaciones + 2
             V(i + 1) = aux
-            GraficarBarra(Brushes.Blue, i + 1)
-            Threading.Thread.Sleep(Demora * 10)
-            GraficarBarra(Brushes.Green, Frontera)
-            Threading.Thread.Sleep(Demora * 2)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Blue, i + 1)
+                Threading.Thread.Sleep(Demora * 10)
+                GraficarBarra(Brushes.Green, Frontera)
+                Threading.Thread.Sleep(Demora * 2)
+            End If
             Frontera = Frontera + 1
         End While
-        GraficarBarra(Brushes.Green, 0)
+        If chkGraficos.Checked Then
+            GraficarBarra(Brushes.Green, 0)
+        End If
 
-        For i = 0 To UltimaPosicion
-            GraficarBarra(Brushes.Orange, i)
-            Threading.Thread.Sleep(Demora * 5)
-            GraficarBarra(Brushes.Green, i)
-            Threading.Thread.Sleep(Demora * 10)
-        Next
+        If chkGraficos.Checked Then
+            For i = 0 To UltimaPosicion
+                GraficarBarra(Brushes.Orange, i)
+                Threading.Thread.Sleep(Demora * 5)
+                GraficarBarra(Brushes.Green, i)
+                Threading.Thread.Sleep(Demora * 10)
+            Next
+        End If
 
-        BurbujaConInsercion_Datos()
+        lInsercion.Items.Clear()
+        lInsercion.Items.Add("C: " & cCondicionales)
+        lInsercion.Items.Add("A: " & cAsignaciones)
         FinalDeBotones()
+        BurbujaConInsercion_Datos()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
     End Sub
 
     'Datos
@@ -511,37 +684,29 @@ Public Class Principal
         Dim TiempoInicial As DateTime
         Dim TiempoFinal As DateTime
         Dim TiempoDeProceso As TimeSpan
-        Dim aux = 0
+        Dim aux
         Dim Frontera
-        Dim i = 0
-        Dim cAsignaciones As Integer = 0
-        Dim cCondicionales As Integer = 0
+        Dim i
 
+        'Tomar tiempo actual
         TiempoInicial = Now
-        cAsignaciones = cAsignaciones + 1
         Frontera = 1
-        cCondicionales = cCondicionales + 1
-
         While Frontera <= UltimaPosicion
-            cAsignaciones = cAsignaciones + 2
             aux = VD(Frontera)
             i = Frontera - 1
-            cCondicionales = cCondicionales + 1
             While i >= 0 AndAlso VD(i) > aux
-                cAsignaciones = cAsignaciones + 2
                 VD(i + 1) = VD(i)
                 i = i - 1
             End While
-            cAsignaciones = cAsignaciones + 2
             VD(i + 1) = aux
             Frontera = Frontera + 1
         End While
+
+        'Tomar tiempo final
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
-        lInsercion.Items.Clear()
-        lInsercion.Items.Add("C: " & cCondicionales)
-        lInsercion.Items.Add("A: " & cAsignaciones)
         lInsercion.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
 
 
@@ -554,48 +719,18 @@ Public Class Principal
     Sub MergeSort()
         Dim IzqA, DerA, IzqB, DerB As Integer
         Dim AnchoSeccion As Integer
-
-        AnchoSeccion = 1
-        While AnchoSeccion <= UltimaPosicion
-            IzqA = 0
-            DerA = IzqA + AnchoSeccion - 1
-            IzqB = DerA + 1
-            DerB = IzqB + AnchoSeccion - 1
-            If DerB > UltimaPosicion Then
-                DerB = UltimaPosicion
-            End If
-            While IzqB <= UltimaPosicion
-                MezclarVector(IzqA, DerA, IzqB, DerB, V)
-                IzqA = DerB + 1
-                DerA = IzqA + AnchoSeccion - 1
-                IzqB = DerA + 1
-                DerB = IzqB + AnchoSeccion - 1
-                If DerB > UltimaPosicion Then
-                    DerB = UltimaPosicion
-                End If
-            End While
-            AnchoSeccion = AnchoSeccion * 2
-        End While
-
-        MergeSort_Datos()
-        FinalDeBotones()
-    End Sub
-
-    'Datos
-    Sub MergeSort_Datos()
-        Dim TiempoInicial As DateTime
-        Dim TiempoFinal As DateTime
-        Dim TiempoDeProceso As TimeSpan
-        Dim IzqA, DerA, IzqB, DerB As Integer
-        Dim AnchoSeccion As Integer
         Dim cAsignaciones As Integer = 0
         Dim cCondicionales As Integer = 0
 
-        TiempoInicial = Now
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
         cAsignaciones = cAsignaciones + 1
         AnchoSeccion = 1
         cCondicionales = cCondicionales + 1
-
         While AnchoSeccion <= UltimaPosicion
             cAsignaciones = cAsignaciones + 4
             IzqA = 0
@@ -609,7 +744,7 @@ Public Class Principal
             End If
             cCondicionales = cCondicionales + 1
             While IzqB <= UltimaPosicion
-                MezclarVector(IzqA, DerA, IzqB, DerB, VD)
+                MezclarVector(IzqA, DerA, IzqB, DerB, V)
                 cAsignaciones = cAsignaciones + 4
                 IzqA = DerB + 1
                 DerA = IzqA + AnchoSeccion - 1
@@ -625,12 +760,53 @@ Public Class Principal
             AnchoSeccion = AnchoSeccion * 2
         End While
 
-        TiempoFinal = Now
-        TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
         lMerge.Items.Clear()
         lMerge.Items.Add("C: " & cCondicionales)
         lMerge.Items.Add("A: " & cAsignaciones)
+        MergeSort_Datos()
+        FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
+    End Sub
+
+    'Datos
+    Sub MergeSort_Datos()
+        Dim TiempoInicial As DateTime
+        Dim TiempoFinal As DateTime
+        Dim TiempoDeProceso As TimeSpan
+        Dim IzqA, DerA, IzqB, DerB As Integer
+        Dim AnchoSeccion As Integer
+
+        'Tomar tiempo actual
+        TiempoInicial = Now
+        AnchoSeccion = 1
+
+        While AnchoSeccion <= UltimaPosicion
+            IzqA = 0
+            DerA = IzqA + AnchoSeccion - 1
+            IzqB = DerA + 1
+            DerB = IzqB + AnchoSeccion - 1
+            If DerB > UltimaPosicion Then
+                DerB = UltimaPosicion
+            End If
+            While IzqB <= UltimaPosicion
+                MezclarVector(IzqA, DerA, IzqB, DerB, VD)
+                IzqA = DerB + 1
+                DerA = IzqA + AnchoSeccion - 1
+                IzqB = DerA + 1
+                DerB = IzqB + AnchoSeccion - 1
+                If DerB > UltimaPosicion Then
+                    DerB = UltimaPosicion
+                End If
+            End While
+            AnchoSeccion = AnchoSeccion * 2
+        End While
+
+        'Tomar tiempo final
+        TiempoFinal = Now
+        TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
         lMerge.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
     Sub MezclarVector(iA As Integer, dA As Integer, iB As Integer, dB As Integer, vector() As Long)
         Dim VAux(dB - iA) As Integer 'Crea el vector auxiliar donde realizar la mezcla o combinación
@@ -679,60 +855,97 @@ Public Class Principal
     'metiendo. Este metodo es recursivo, es decir, que se llama a si mismo las veces necesarias.
     '------------------------------------------------------------------------------------------------------------
     Private Sub MetodoQuicksort()
+        Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
+        Cursor = Cursors.WaitCursor
+        If chkGraficos.Checked Then
+            InicioDeBotones()
+        End If
+
         QuickSort(V, 0, UltimaPosicion)
-        FinalDeBotones()
         MetodoQuicksort_Datos()
+        FinalDeBotones()
+        Cursor = Cursors.Default
+        Me.Text = "Métodos de Ordenamiento"
     End Sub
 
     'Grafico
     Private Sub QuickSort(Vector() As Long, Li As Integer, Ld As Integer)
         Dim Pi, Pd, pivot As Integer
+        Dim cAsignaciones As Integer = 0
+        Dim cCondicionales As Integer = 0
+
+        cAsignaciones = cAsignaciones + 3
         Pi = Li
         Pd = Ld
         pivot = Vector(Li)
-
-
+        cCondicionales = cCondicionales + 1
         While Pi < Pd
-            GraficarBarra(Brushes.Yellow, Pi)
-            Threading.Thread.Sleep(Demora)
-            While Vector(Pd) >= pivot And Pi < Pd
-                GraficarBarra(Brushes.Blue, Pd)
-                Pd = Pd - 1
-                GraficarBarra(Brushes.Yellow, Pd)
-                Threading.Thread.Sleep(Demora)
-            End While
-
-            GraficarBarra(Brushes.Yellow, Pi)
-            Threading.Thread.Sleep(Demora)
-            Vector(Pi) = Vector(Pd)
-            While Vector(Pi) < pivot And Pi < Pd
-                GraficarBarra(Brushes.Blue, Pi)
-                Pi = Pi + 1
-
+            If chkGraficos.Checked Then
                 GraficarBarra(Brushes.Yellow, Pi)
                 Threading.Thread.Sleep(Demora)
+            End If
+            While Vector(Pd) >= pivot And Pi < Pd
+                cCondicionales = cCondicionales + 1
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, Pd)
+                End If
+                cAsignaciones = cAsignaciones + 1
+                Pd = Pd - 1
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, Pd)
+                    Threading.Thread.Sleep(Demora)
+                End If
             End While
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Yellow, Pi)
+                Threading.Thread.Sleep(Demora)
+            End If
+            cAsignaciones = cAsignaciones + 1
+            Vector(Pi) = Vector(Pd)
+            cCondicionales = cCondicionales + 1
+            While Vector(Pi) < pivot And Pi < Pd
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Blue, Pi)
+                End If
+                cAsignaciones = cAsignaciones + 1
+                Pi = Pi + 1
+                If chkGraficos.Checked Then
+                    GraficarBarra(Brushes.Yellow, Pi)
+                    Threading.Thread.Sleep(Demora)
+                End If
+            End While
+            cAsignaciones = cAsignaciones + 1
             Vector(Pd) = Vector(Pi)
-
-            GraficarBarra(Brushes.Orange, Pi)
-            GraficarBarra(Brushes.Orange, Pd)
-            Threading.Thread.Sleep(Demora)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Orange, Pi)
+                GraficarBarra(Brushes.Orange, Pd)
+                Threading.Thread.Sleep(Demora)
+            End If
         End While
-
-        GraficarBarra(System.Drawing.Brushes.Green, Pi)
+        If chkGraficos.Checked Then
+            GraficarBarra(Brushes.Green, Pi)
+        End If
+        cAsignaciones = cAsignaciones + 1
         Vector(Pi) = pivot
+        cCondicionales = cCondicionales + 1
         If (Pd - 1) > Li Then
             QuickSort(Vector, Li, Pd - 1)
         Else
-
-            GraficarBarra(Brushes.Green, Li)
-
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, Li)
+            End If
         End If
+        cCondicionales = cCondicionales + 1
         If (Pi + 1) < Ld Then
             QuickSort(Vector, Pi + 1, Ld)
         Else
-            GraficarBarra(Brushes.Green, Ld)
+            If chkGraficos.Checked Then
+                GraficarBarra(Brushes.Green, Ld)
+            End If
         End If
+        lQuick.Items.Clear()
+        lQuick.Items.Add("C: " & cCondicionales)
+        lQuick.Items.Add("A: " & cAsignaciones)
     End Sub
 
     'Datos
@@ -741,51 +954,41 @@ Public Class Principal
         Dim TiempoFinal As DateTime
         Dim TiempoDeProceso As TimeSpan
 
+        'Tomar tiempo actual
         TiempoInicial = Now
-        QuickSort_Datos(VD, 0, UltimaPosicion, 0, 0)
+        QuickSort_Datos(VD, 0, UltimaPosicion)
+
+        'Tomar tiempo final
         TiempoFinal = Now
         TiempoDeProceso = TiempoFinal.Subtract(TiempoInicial)
         lQuick.Items.Add("T: " & TiempoDeProceso.TotalSeconds.ToString("0.0000"))
+        GraficarVector(Brushes.Green)
     End Sub
 
-    Private Sub QuickSort_Datos(Vector As Long(), Li As Integer, Ld As Integer, cAsignaciones As Integer, cCondicionales As Integer)
+    Private Sub QuickSort_Datos(Vector As Long(), Li As Integer, Ld As Integer)
         Dim Pi, Pd, pivot As Integer
 
-        cAsignaciones = cAsignaciones + 3
         Pi = Li
         Pd = Ld
         pivot = Vector(Li)
-        cCondicionales = cCondicionales + 1
 
         While Pi < Pd
-            cCondicionales = cCondicionales + 1
             While Vector(Pd) >= pivot And Pi < Pd
-                cAsignaciones = cAsignaciones + 1
                 Pd = Pd - 1
             End While
-            cAsignaciones = cAsignaciones + 1
             Vector(Pi) = Vector(Pd)
-            cCondicionales = cCondicionales + 1
             While Vector(Pi) < pivot And Pi < Pd
-                cAsignaciones = cAsignaciones + 1
                 Pi = Pi + 1
             End While
-            cAsignaciones = cAsignaciones + 1
             Vector(Pd) = Vector(Pi)
         End While
-        cAsignaciones = cAsignaciones + 1
         Vector(Pi) = pivot
-        cCondicionales = cCondicionales + 1
         If (Pd - 1) > Li Then
-            QuickSort_Datos(Vector, Li, Pd - 1, cAsignaciones, cCondicionales)
+            QuickSort_Datos(Vector, Li, Pd - 1)
         End If
-        cCondicionales = cCondicionales + 1
         If (Pi + 1) < Ld Then
-            QuickSort_Datos(Vector, Pi + 1, Ld, cAsignaciones, cCondicionales)
+            QuickSort_Datos(Vector, Pi + 1, Ld)
         End If
-        lQuick.Items.Clear()
-        lQuick.Items.Add("C: " & cCondicionales)
-        lQuick.Items.Add("A: " & cAsignaciones)
     End Sub
 
     '------------------------------------------------------------------------------------------------------------
@@ -899,26 +1102,14 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
 
     Private Sub cmdNormal_Click(sender As Object, e As EventArgs) Handles cmdNormal.Click
+
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf BurbujaNormal)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf BurbujaNormal_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Cursor = Cursors.Default
-            Me.Text = "Métodos de Ordenamiento"
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf BurbujaNormal)
+            THREAD.Start()
+            '        MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
-
     End Sub
 
     '------------------------------------------------------------------------------------------------------------
@@ -926,21 +1117,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdBandera_Click(sender As Object, e As EventArgs) Handles cmdBandera.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf BurbujaBandera)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf BurbujaBandera_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf BurbujaBandera)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -951,21 +1129,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdOptimizada_Click(sender As Object, e As EventArgs) Handles cmdOptimizada.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf BurbujaOptimizada)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf BurbujaOptimizada_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf BurbujaOptimizada)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -976,21 +1141,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdBidireccional_Click(sender As Object, e As EventArgs) Handles cmdBidireccional.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf BurbujaBidireccional)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf BurbujaBidireccional_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf BurbujaBidireccional)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -1001,21 +1153,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdDirecta_Click(sender As Object, e As EventArgs) Handles cmdDirecta.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf SeleccionDirecta)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf SeleccionDirecta_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf SeleccionDirecta)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -1026,21 +1165,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdInsercion_Click(sender As Object, e As EventArgs) Handles cmdInsercion.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf BurbujaConInsercion)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf BurbujaConInsercion_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf BurbujaConInsercion)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -1051,21 +1177,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdMergeSort_Click(sender As Object, e As EventArgs) Handles cmdMergeSort.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf MergeSort)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf MergeSort_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf MergeSort)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -1076,21 +1189,8 @@ Public Class Principal
     '------------------------------------------------------------------------------------------------------------
     Private Sub cmdQuickSort_Click(sender As Object, e As EventArgs) Handles cmdQuickSort.Click
         If MaxValor > 0 Then
-            Me.Text = "Métodos de Ordenamiento (Ordeando Vector, espere por favor...)"
-            Cursor = Cursors.WaitCursor
-            If chkGraficos.Checked = True Then
-                THREAD = New Threading.Thread(AddressOf MetodoQuicksort)
-                THREAD.Start()
-                InicioDeBotones()
-            Else
-                THREAD = New Threading.Thread(AddressOf MetodoQuicksort_Datos)
-                THREAD.Start()
-                Repintar(VD)
-            End If
-            Me.Text = "Métodos de Ordenamiento"
-            Cursor = Cursors.Default
-            THREAD.Join()
-            MessageBox.Show("El vector está completamente ordenado!", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            THREAD = New Threading.Thread(AddressOf MetodoQuicksort)
+            THREAD.Start()
         Else
             MessageBox.Show("Primero necesita cargar datos en el vector!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -1105,7 +1205,12 @@ Public Class Principal
     Public Sub tVelocidad_Scroll(sender As Object, e As EventArgs) Handles tVelocidad.Scroll
         Demora = tVelocidad.Value
     End Sub
-
+    Private Sub tVelocidad_MouseHover(sender As Object, e As EventArgs) Handles tVelocidad.MouseHover
+        EventoDeMouseHover()
+    End Sub
+    Private Sub tVelocidad_MouseLeave(sender As Object, e As EventArgs) Handles tVelocidad.MouseLeave
+        EventoDeMouseLeave()
+    End Sub
     '------------------------------------------------------------------------------------------------------------
     'Controles tipo Checkbox
     '------------------------------------------------------------------------------------------------------------
@@ -1142,12 +1247,15 @@ Public Class Principal
                 Case Threading.ThreadState.Running
                     THREAD.Suspend()
                     cmdPlay.BackColor = Color.Gray
+                    Cursor = Cursors.Default
                 Case Threading.ThreadState.Suspended
                     THREAD.Resume()
                     cmdPlay.BackColor = Color.Green
+                    Cursor = Cursors.WaitCursor
                 Case Else
                     THREAD.Suspend()
                     cmdPlay.BackColor = Color.Gray
+                    Cursor = Cursors.Default
             End Select
         End If
     End Sub
@@ -1157,13 +1265,22 @@ Public Class Principal
         THREAD.Suspend()
         If MessageBox.Show("Cancelar ordenamiento?" + vbLf + "Al hacerlo se cargará el vector original nuevamente", "Información", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
             THREAD.Resume()
+            Cursor = Cursors.WaitCursor
         Else
             THREAD.Resume()
             THREAD.Abort()
+            Cursor = Cursors.Default
             V = VECTOR_INICIAL.Clone
             GraficarVector(Brushes.Blue)
             FinalDeBotones()
         End If
+    End Sub
+    Private Sub cmdPlay_MouseHover(sender As Object, e As EventArgs) Handles cmdPlay.MouseHover
+        EventoDeMouseHover()
+    End Sub
+
+    Private Sub cmdStop_MouseHover(sender As Object, e As EventArgs) Handles cmdStop.MouseHover
+        EventoDeMouseHover()
     End Sub
     Private Sub InicioDeBotones()
         cmdPlay.Visible = True
@@ -1196,29 +1313,36 @@ Public Class Principal
 
     Public Sub GraficarBarra(ByVal ColorRelleno As Brush, ByVal Posic As Long)
         Dim fph As Single, fpv As Single
-        Dim x1 As Integer, y1 As Integer, ancho As Single, alto As Single
+        Dim x1 As Integer, y1 As Integer, ancho As Single, alto As Single, barra As Single
 
         'Calcular proporciones y posiciones
         fph = picGrafico.Width / (UltimaPosicion + 1)
+
         fpv = picGrafico.Height / MaxValor
 
         x1 = Posic * fph
-        If GraficoOno = True Then
-            y1 = picGrafico.Height - (V(Posic) * fpv)
-            alto = V(Posic) * fpv
-        Else
-            y1 = picGrafico.Height - (VD(Posic) * fpv)
-            alto = VD(Posic) * fpv
-        End If
+        '        If GraficoOno = True Then
+        y1 = picGrafico.Height - (V(Posic) * fpv)
+        alto = V(Posic) * fpv
+        '       Else
+        '      y1 = picGrafico.Height - (VD(Posic) * fpv)
+        '     alto = VD(Posic) * fpv
+        '    End If
         ancho = fph
+        ' Generar barras separadas hasta los 100 elementos para ver mejor el movimiento de la grafica
+        If UltimaPosicion > 99 Then
+            barra = fph
+        Else
+            barra = fph - (25 * fph / 100)
+        End If
 
         'Trazar
         Lienzo.FillRectangle(Brushes.White, x1, 0, IIf(ancho < 1, 1, ancho), picGrafico.Height)
-        Lienzo.FillRectangle(ColorRelleno, x1, y1, IIf(ancho < 1, 1, ancho), alto)
+        Lienzo.FillRectangle(ColorRelleno, x1, y1, IIf(barra < 1, 1, barra), alto)
     End Sub
     Private Sub GRILLA_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles GRILLA.CellValueChanged
-        'Cuando se dispare el evento de cambio de valor en las celdas de la grilla se hace una pequeña comprobación p/ cuando
-        'los valores aun no fueren cargados
+        'Cuando se dispare el evento de cambio de valor en las celdas de la grilla se hace una pequeña comprobación p/ si
+        'los valores aun no fueron cargados
 
         If e.RowIndex = -1 Then Exit Sub
 
@@ -1233,11 +1357,6 @@ Public Class Principal
                 VD(Lugar) = Cambio
             End If
         Next
-        '        'Recorrer vector y cambiar valor
-        '       For i = 0 To UltimaPosicion - 1
-        '      If VD(i) <> GRILLA.CurrentRow.Cells(0).Value Then
-        '     End If
-        '    Next
     End Sub
 
     Private Sub txtElementos_TextChanged(sender As Object, e As EventArgs) Handles txtElementos.TextChanged
@@ -1252,8 +1371,7 @@ Public Class Principal
         End If
     End Sub
 
-    Private Sub tbRepetidos_Scroll_1(sender As Object, e As EventArgs) Handles tbRepetidos.Scroll
-
+    Private Sub tbRepetidos_Scroll(sender As Object, e As EventArgs) Handles tbRepetidos.Scroll
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -1281,4 +1399,46 @@ Public Class Principal
         cmdQuickSort_Click(sender, e)
         THREAD.Join()
     End Sub
+
+    Private Sub EventoDeMouseHover()
+        If THREAD IsNot Nothing Then
+            If THREAD.IsAlive Then
+                Select Case THREAD.ThreadState
+                    Case Threading.ThreadState.Running
+                        Cursor = Cursors.Default
+                    Case Threading.ThreadState.Suspended
+                        Cursor = Cursors.Default
+                    Case Else
+                        Cursor = Cursors.Default
+                End Select
+            Else
+                Cursor = Cursors.Default
+            End If
+        End If
+    End Sub
+    Private Sub EventoDeMouseLeave()
+        If THREAD IsNot Nothing Then
+            If THREAD.IsAlive Then
+                Select Case THREAD.ThreadState
+                    Case Threading.ThreadState.Running
+                        Cursor = Cursors.WaitCursor
+                    Case Threading.ThreadState.Suspended
+                        Cursor = Cursors.Default
+                    Case Else
+                        Cursor = Cursors.WaitCursor
+                End Select
+            Else
+                Cursor = Cursors.Default
+            End If
+        End If
+    End Sub
+
+    Private Sub cmdPlay_MouseLeave(sender As Object, e As EventArgs) Handles cmdPlay.MouseLeave
+        EventoDeMouseLeave()
+    End Sub
+
+    Private Sub cmdStop_MouseLeave(sender As Object, e As EventArgs) Handles cmdStop.MouseLeave
+        EventoDeMouseLeave()
+    End Sub
+
 End Class
