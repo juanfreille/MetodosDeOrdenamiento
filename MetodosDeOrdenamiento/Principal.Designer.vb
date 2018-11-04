@@ -22,6 +22,7 @@ Partial Class Principal
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.cmdNormal = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtElementos = New System.Windows.Forms.TextBox()
@@ -65,10 +66,11 @@ Partial Class Principal
         Me.chkGraficos = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cmdStop = New System.Windows.Forms.Button()
-        Me.chkMonitoreo = New System.Windows.Forms.CheckBox()
+        Me.chkTiempo = New System.Windows.Forms.CheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.tbRepetidos = New System.Windows.Forms.TrackBar()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.picGrafico, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tDesordenar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GRILLA, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -520,9 +522,9 @@ Partial Class Principal
         Me.chkGraficos.Location = New System.Drawing.Point(174, 516)
         Me.chkGraficos.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.chkGraficos.Name = "chkGraficos"
-        Me.chkGraficos.Size = New System.Drawing.Size(151, 21)
+        Me.chkGraficos.Size = New System.Drawing.Size(172, 21)
         Me.chkGraficos.TabIndex = 46
-        Me.chkGraficos.Text = "Animación (On/Off)"
+        Me.chkGraficos.Text = "Graficar ordenamiento"
         Me.chkGraficos.UseVisualStyleBackColor = True
         '
         'Label4
@@ -544,18 +546,19 @@ Partial Class Principal
         Me.cmdStop.Size = New System.Drawing.Size(53, 47)
         Me.cmdStop.TabIndex = 48
         Me.cmdStop.Text = "■"
+        Me.cmdStop.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.cmdStop.UseVisualStyleBackColor = True
         '
-        'chkMonitoreo
+        'chkTiempo
         '
-        Me.chkMonitoreo.AutoSize = True
-        Me.chkMonitoreo.Location = New System.Drawing.Point(363, 516)
-        Me.chkMonitoreo.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.chkMonitoreo.Name = "chkMonitoreo"
-        Me.chkMonitoreo.Size = New System.Drawing.Size(142, 21)
-        Me.chkMonitoreo.TabIndex = 49
-        Me.chkMonitoreo.Text = "Medición (On/Off)"
-        Me.chkMonitoreo.UseVisualStyleBackColor = True
+        Me.chkTiempo.AutoSize = True
+        Me.chkTiempo.Location = New System.Drawing.Point(363, 516)
+        Me.chkTiempo.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.chkTiempo.Name = "chkTiempo"
+        Me.chkTiempo.Size = New System.Drawing.Size(116, 21)
+        Me.chkTiempo.TabIndex = 49
+        Me.chkTiempo.Text = "Medir Tiempo"
+        Me.chkTiempo.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -601,7 +604,7 @@ Partial Class Principal
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.tbRepetidos)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.chkMonitoreo)
+        Me.Controls.Add(Me.chkTiempo)
         Me.Controls.Add(Me.cmdStop)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.chkGraficos)
@@ -695,9 +698,10 @@ Partial Class Principal
     Friend WithEvents chkGraficos As CheckBox
     Friend WithEvents Label4 As Label
     Friend WithEvents cmdStop As Button
-    Friend WithEvents chkMonitoreo As CheckBox
+    Friend WithEvents chkTiempo As CheckBox
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents picGrafico As PictureBox
     Friend WithEvents tbRepetidos As TrackBar
     Friend WithEvents Button1 As Button
+    Friend WithEvents ToolTip1 As ToolTip
 End Class
